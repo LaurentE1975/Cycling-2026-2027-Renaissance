@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Road to Villamartin — Ton Plan de Retour</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,600&display=swap');
+
+  :root {
+    --asphalt: #0f0f0f;
+    --steel: #1c1c1e;
+    --carbon: #2a2a2d;
+    --chrome: #3a3a3c;
+    --glow: #f5a623;
+    --speed: #e8ff47;
+    --mist: #8e8e93;
+    --cloud: #c7c7cc;
+    --white: #f5f5f7;
+    --red-zone: #ff3b30;
+    --green-zone: #30d158;
+    --blue-zone: #0a84ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--asphalt);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(160deg, #0f0f0f 0%, #1a1a1a 50%, #0a0a0a 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 40px 24px;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 70%, rgba(245,166,35,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(232,255,71,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-road {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 180px;
+    background: linear-gradient(to top, rgba(245,166,35,0.06) 0%, transparent 100%);
+  }
+
+  .hero-road::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background: repeating-linear-gradient(
+      to top,
+      var(--glow) 0px,
+      var(--glow) 30px,
+      transparent 30px,
+      transparent 60px
+    );
+    opacity: 0.3;
+  }
+
+  .km-counter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 18vw, 160px);
+    color: var(--glow);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    text-shadow: 0 0 60px rgba(245,166,35,0.3);
+    position: relative;
+    z-index: 1;
+  }
+
+  .km-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 6px;
+    color: var(--mist);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(28px, 6vw, 56px);
+    color: var(--white);
+    letter-spacing: 3px;
+    margin: 16px 0 8px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--cloud);
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .route-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(245,166,35,0.3);
+    border-radius: 100px;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--glow);
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--glow); }
+
+  /* PROFILE CARD */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: var(--glow);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    letter-spacing: 2px;
+    line-height: 1.05;
+    margin-bottom: 32px;
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .stat-card {
+    background: var(--steel);
+    border: 1px solid var(--chrome);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--glow), transparent);
+    opacity: 0.6;
+  }
+
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--glow);
+    line-height: 1;
+    letter-spacing: 1px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mist);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 4px;
+  }
+
+  .stat-sub {
+    font-size: 13px;
+    color: var(--cloud);
+    margin-top: 8px;
+  }
+
+  /* ROUTE MAP VISUAL */
+  .route-visual {
+    background: var(--steel);
+    border: 1px solid var(--chrome);
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .route-visual h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+    color: var(--white);
+  }
+
+  .etapes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .etapes-list::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 24px;
+    bottom: 24px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--glow), rgba(245,166,35,0.1));
+  }
+
+  .etape-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+  }
+
+  .etape-row:last-child { border-bottom: none; }
+
+  .etape-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--carbon);
+    border: 2px solid var(--glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--glow);
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .etape-info { flex: 1; }
+  .etape-name { font-weight: 600; font-size: 15px; color: var(--white); }
+  .etape-detail { font-size: 12px; color: var(--mist); margin-top: 2px; }
+
+  .etape-km {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--speed);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .etape-row.highlight .etape-num { border-color: var(--red-zone); color: var(--red-zone); }
+  .etape-row.highlight .etape-km { color: var(--red-zone); }
+  .etape-row.highlight .etape-name { color: #ff9f9f; }
+
+  /* TIMELINE PLAN */
+  .timeline {
+    position: relative;
+    padding-left: 0;
+  }
+
+  .phase {
+    background: var(--steel);
+    border: 1px solid var(--chrome);
+    border-radius: 20px;
+    padding: 28px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .phase:hover { border-color: var(--glow); }
+
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .phase-tag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+
+  .tag-reboot { background: rgba(10,132,255,0.2); color: var(--blue-zone); border: 1px solid rgba(10,132,255,0.3); }
+  .tag-base { background: rgba(48,209,88,0.15); color: var(--green-zone); border: 1px solid rgba(48,209,88,0.3); }
+  .tag-build { background: rgba(245,166,35,0.15); color: var(--glow); border: 1px solid rgba(245,166,35,0.3); }
+  .tag-peak { background: rgba(255,59,48,0.15); color: var(--red-zone); border: 1px solid rgba(255,59,48,0.3); }
+  .tag-taper { background: rgba(142,142,147,0.15); color: var(--mist); border: 1px solid rgba(142,142,147,0.3); }
+
+  .phase-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: var(--white);
+  }
+
+  .phase-dates {
+    font-size: 13px;
+    color: var(--mist);
+    margin-top: 2px;
+  }
+
+  .phase-duration {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--glow);
+    letter-spacing: 1px;
+    text-align: right;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .phase-duration small {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--mist);
+    text-transform: uppercase;
+  }
+
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .day-cell {
+    border-radius: 8px;
+    padding: 8px 4px;
+    text-align: center;
+    min-height: 52px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .day-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--mist);
+  }
+
+  .day-km {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
+
+  .day-type {
+    font-size: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .day-rest { background: rgba(255,255,255,0.03); border: 1px solid var(--chrome); }
+  .day-rest .day-km { color: var(--chrome); }
+  .day-rest .day-type { color: var(--chrome); }
+
+  .day-easy { background: rgba(10,132,255,0.1); border: 1px solid rgba(10,132,255,0.2); }
+  .day-easy .day-km { color: var(--blue-zone); }
+  .day-easy .day-type { color: rgba(10,132,255,0.7); }
+
+  .day-medium { background: rgba(48,209,88,0.1); border: 1px solid rgba(48,209,88,0.2); }
+  .day-medium .day-km { color: var(--green-zone); }
+  .day-medium .day-type { color: rgba(48,209,88,0.7); }
+
+  .day-hard { background: rgba(245,166,35,0.12); border: 1px solid rgba(245,166,35,0.25); }
+  .day-hard .day-km { color: var(--glow); }
+  .day-hard .day-type { color: rgba(245,166,35,0.7); }
+
+  .day-race { background: rgba(255,59,48,0.12); border: 1px solid rgba(255,59,48,0.25); }
+  .day-race .day-km { color: var(--red-zone); }
+  .day-race .day-type { color: rgba(255,59,48,0.7); }
+
+  .phase-insights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .insight {
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    padding: 14px;
+  }
+
+  .insight-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--mist);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .insight-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--white);
+  }
+
+  .insight-sub { font-size: 12px; color: var(--mist); }
+
+  /* ZONES */
+  .zones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .zone-card {
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+    border: 1px solid;
+  }
+
+  .zone-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .zone-name { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .zone-pct { font-size: 22px; font-weight: 300; margin: 6px 0 2px; }
+  .zone-desc { font-size: 11px; color: var(--mist); line-height: 1.4; }
+
+  .z1 { background: rgba(10,132,255,0.08); border-color: rgba(10,132,255,0.25); }
+  .z1 .zone-num { color: #5ac8fa; }
+  .z2 { background: rgba(48,209,88,0.08); border-color: rgba(48,209,88,0.25); }
+  .z2 .zone-num { color: var(--green-zone); }
+  .z3 { background: rgba(255,214,10,0.08); border-color: rgba(255,214,10,0.25); }
+  .z3 .zone-num { color: #ffd60a; }
+  .z4 { background: rgba(255,159,10,0.08); border-color: rgba(255,159,10,0.25); }
+  .z4 .zone-num { color: #ff9f0a; }
+  .z5 { background: rgba(255,59,48,0.08); border-color: rgba(255,59,48,0.25); }
+  .z5 .zone-num { color: var(--red-zone); }
+
+  /* PROGRESSION CHART */
+  .progress-chart {
+    background: var(--steel);
+    border: 1px solid var(--chrome);
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 40px;
+  }
+
+  .chart-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+  }
+
+  .bars-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 160px;
+    padding-bottom: 32px;
+    position: relative;
+  }
+
+  .bars-container::after {
+    content: '';
+    position: absolute;
+    bottom: 32px;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--chrome);
+  }
+
+  .bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .bar {
+    width: 100%;
+    border-radius: 6px 6px 0 0;
+    min-height: 4px;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .bar-val {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    color: var(--glow);
+    white-space: nowrap;
+  }
+
+  .bar-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--mist);
+    text-align: center;
+    margin-top: 4px;
+    line-height: 1.3;
+  }
+
+  /* TIPS */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .tip-card {
+    background: var(--steel);
+    border: 1px solid var(--chrome);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .tip-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .tip-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+
+  .tip-text { font-size: 13px; color: var(--mist); line-height: 1.5; }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--chrome);
+    margin: 0 24px;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 60px 24px;
+    background: var(--steel);
+    margin-top: 40px;
+  }
+
+  .footer-slogan {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 8vw, 72px);
+    letter-spacing: 4px;
+    color: var(--glow);
+    text-shadow: 0 0 40px rgba(245,166,35,0.3);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .footer-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--mist);
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--mist);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  .ld-rest { background: var(--chrome); }
+  .ld-easy { background: var(--blue-zone); }
+  .ld-medium { background: var(--green-zone); }
+  .ld-hard { background: var(--glow); }
+  .ld-race { background: var(--red-zone); }
+
+  /* TABLE */
+  .data-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+    margin-bottom: 32px;
+  }
+
+  .data-table th {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mist);
+    padding: 8px 16px;
+    text-align: left;
+  }
+
+  .data-table td {
+    padding: 14px 16px;
+    background: var(--steel);
+    font-size: 14px;
+    color: var(--cloud);
+    border-top: 1px solid var(--chrome);
+    border-bottom: 1px solid var(--chrome);
+  }
+
+  .data-table td:first-child {
+    border-left: 1px solid var(--chrome);
+    border-radius: 10px 0 0 10px;
+  }
+
+  .data-table td:last-child {
+    border-right: 1px solid var(--chrome);
+    border-radius: 0 10px 10px 0;
+  }
+
+  .data-table tr.accent td { background: rgba(245,166,35,0.08); border-color: rgba(245,166,35,0.2); }
+
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .pill-easy { background: rgba(10,132,255,0.2); color: var(--blue-zone); }
+  .pill-med { background: rgba(48,209,88,0.2); color: var(--green-zone); }
+  .pill-hard { background: rgba(245,166,35,0.2); color: var(--glow); }
+  .pill-peak { background: rgba(255,59,48,0.2); color: var(--red-zone); }
+
+  .callout {
+    background: rgba(245,166,35,0.08);
+    border: 1px solid rgba(245,166,35,0.25);
+    border-left: 4px solid var(--glow);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+
+  .callout-title {
+    font-weight: 700;
+    color: var(--glow);
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .callout-text { font-size: 14px; color: var(--cloud); line-height: 1.6; }
+
+  @media (max-width: 600px) {
+    .week-grid { grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .day-cell { padding: 5px 2px; min-height: 44px; }
+    .day-km { font-size: 12px; }
+    .bars-container { height: 120px; }
+    .phase-duration { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-road"></div>
+  <p class="km-label">Le défi de ta vie</p>
+  <div class="km-counter">2 200</div>
+  <p style="font-size:13px;letter-spacing:4px;color:var(--mist);font-weight:600;text-transform:uppercase;margin-bottom:16px;position:relative;z-index:1;">kilomètres • 10 étapes • 1 an de préparation</p>
+  <h1 class="hero-title">Road to Villamartin</h1>
+  <p class="hero-subtitle">De Chevetogne aux plages d'Alicante — le come-back d'un grimpeur</p>
+  <div class="route-badge">
+    <div class="dot"></div>
+    Chevetogne, Belgique
+    <span style="color:var(--chrome);font-size:12px;">→→→</span>
+    Villamartin, Costa Blanca
+    <div class="dot"></div>
+  </div>
+</section>
+
+<!-- PROFIL ATHLÈTE -->
+<section class="section">
+  <p class="section-eyebrow">Ton profil athlète</p>
+  <h2 class="section-title">Le Revenant.<br>Le Vrai.</h2>
+
+  <div class="profile-grid">
+    <div class="stat-card">
+      <div class="stat-value">51</div>
+      <div class="stat-label">Âge</div>
+      <div class="stat-sub">Le moteur est là.<br>Il faut juste le relancer.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">12k</div>
+      <div class="stat-label">km/an en moyenne</div>
+      <div class="stat-sub">Ton ancien niveau cible (10–15 000 km/an)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">20+</div>
+      <div class="stat-label">Ans de vécu</div>
+      <div class="stat-sub">La mémoire musculaire ne ment pas.</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Ans de retour à 39</div>
+      <div class="stat-sub">Preuve que ton corps répond encore présent.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">⚡ LE DIAGNOSTIC HONNÊTE</div>
+    <div class="callout-text">Tu n'es pas un débutant. Tu es un cycliste en pause longue. Ta base aérobie est profondément ancrée dans ton ADN moteur. Le risque numéro 1 à ton stade : <strong style="color:var(--glow)">aller trop vite trop tôt</strong>. Les tendons et les genoux mettent 2× plus de temps à s'adapter que les poumons. Le plan respecte ça à la lettre.</div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- L'ITINÉRAIRE -->
+<section class="section">
+  <p class="section-eyebrow">Le défi — Juin 2027</p>
+  <h2 class="section-title">10 Étapes.<br>2 200 km.<br>L'Europe du Nord au Sud.</h2>
+
+  <div class="route-visual">
+    <h3>🗺️ L'ITINÉRAIRE DES 10 ÉTAPES</h3>
+    <div class="etapes-list">
+      <div class="etape-row">
+        <div class="etape-num">1</div>
+        <div class="etape-info">
+          <div class="etape-name">Chevetogne → Virton</div>
+          <div class="etape-detail">Ardennes belges • dénivelé modéré • mise en jambes</div>
+        </div>
+        <div class="etape-km">~195 km</div>
+      </div>
+      <div class="etape-row">
+        <div class="etape-num">2</div>
+        <div class="etape-info">
+          <div class="etape-name">Virton → Épinal</div>
+          <div class="etape-detail">Belgique→France • Lorraine • vallées des Vosges</div>
+        </div>
+        <div class="etape-km">~210 km</div>
+      </div>
+      <div class="etape-row">
+        <div class="etape-num">3</div>
+        <div class="etape-info">
+          <div class="etape-name">Épinal → Dole</div>
+          <div class="etape-detail">Traversée Franche-Comté • routes agricoles • vent favorable</div>
+        </div>
+        <div class="etape-km">~200 km</div>
+      </div>
+      <div class="etape-row">
+        <div class="etape-num">4</div>
+        <div class="etape-info">
+          <div class="etape-name">Dole → Bourg-en-Bresse</div>
+          <div class="etape-detail">Plaine de la Bresse • étape de transition</div>
+        </div>
+        <div class="etape-km">~195 km</div>
+      </div>
+      <div class="etape-row highlight">
+        <div class="etape-num">5</div>
+        <div class="etape-info">
+          <div class="etape-name">Bourg-en-Bresse → Valence</div>
+          <div class="etape-detail">⚠️ Étape reine • vallée du Rhône • vent du Mistral possible</div>
+        </div>
+        <div class="etape-km">~230 km</div>
+      </div>
+      <div class="etape-row">
+        <div class="etape-num">6</div>
+        <div class="etape-info">
+          <div class="etape-name">Valence → Nîmes</div>
+          <div class="etape-detail">Descente Rhône • Provence • soleil garanti</div>
+        </div>
+        <div class="etape-km">~215 km</div>
+      </div>
+      <div class="etape-row">
+        <div class="etape-num">7</div>
+        <div class="etape-info">
+          <div class="etape-name">Nîmes → Barcelone</div>
+          <div class="etape-detail">🇫🇷→🇪🇸 • côte méditerranéenne • étape mémorable</div>
+        </div>
+        <div class="etape-km">~240 km</div>
+      </div>
+      <div class="etape-row highlight">
+        <div class="etape-num">8</div>
+        <div class="etape-info">
+          <div class="etape-name">Barcelone → Tarragona + delta</div>
+          <div class="etape-detail">⚠️ Chaleur • côte espagnole • attention à l'hydratation</div>
+        </div>
+        <div class="etape-km">~220 km</div>
+      </div>
+      <div class="etape-row">
+        <div class="etape-num">9</div>
+        <div class="etape-info">
+          <div class="etape-name">Tarragona → Castellón de la Plana</div>
+          <div class="etape-detail">Côte valencienne • plat et rapide • étape de boost moral</div>
+        </div>
+        <div class="etape-km">~195 km</div>
+      </div>
+      <div class="etape-row">
+        <div class="etape-num" style="border-color:var(--speed);color:var(--speed);">10</div>
+        <div class="etape-info">
+          <div class="etape-name" style="color:var(--speed);">Castellón → Villamartin 🏁</div>
+          <div class="etape-detail">L'arrivée • Costa Blanca • la mer d'Alicante t'attend</div>
+        </div>
+        <div class="etape-km" style="color:var(--speed);">~200 km</div>
+      </div>
+    </div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--chrome);display:flex;gap:24px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mist);">Total estimé</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--glow);">~2 100 km</div>
+      </div>
+      <div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mist);">Dénivelé total</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--glow);">~12 000 m+</div>
+      </div>
+      <div>
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mist);">Durée</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--glow);">10–12 jours</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ZONES D'ENTRAÎNEMENT -->
+<section class="section">
+  <p class="section-eyebrow">Physiologie</p>
+  <h2 class="section-title">Tes 5 Zones.<br>Ton nouveau langage.</h2>
+  <p style="color:var(--mist);margin-bottom:32px;max-width:600px;">Oublie le "je pédale fort" vs "je pédale doucement". Voici comment on parle maintenant. 80% de ton entraînement sera en Z1–Z2. C'est la règle qui fait peur aux ego et qui construit les champions.</p>
+
+  <div class="zones-grid">
+    <div class="zone-card z1">
+      <div class="zone-num">Z1</div>
+      <div class="zone-name">Récupération</div>
+      <div class="zone-pct">&lt;60% FCmax</div>
+      <div class="zone-desc">Tu peux chanter. C'est trop facile ? C'est fait exprès.</div>
+    </div>
+    <div class="zone-card z2">
+      <div class="zone-num">Z2</div>
+      <div class="zone-name">Endurance</div>
+      <div class="zone-pct">60–70%</div>
+      <div class="zone-desc">Ta zone de construction. La majorité de ton volume vit ici.</div>
+    </div>
+    <div class="zone-card z3">
+      <div class="zone-num">Z3</div>
+      <div class="zone-name">Tempo</div>
+      <div class="zone-pct">71–80%</div>
+      <div class="zone-desc">Conversation difficile. Usage stratégique seulement.</div>
+    </div>
+    <div class="zone-card z4">
+      <div class="zone-num">Z4</div>
+      <div class="zone-name">Seuil</div>
+      <div class="zone-pct">81–90%</div>
+      <div class="zone-desc">Tu souffres mais tu tiens. Blocs courts, récup longue.</div>
+    </div>
+    <div class="zone-card z5">
+      <div class="zone-num">Z5</div>
+      <div class="zone-name">VO2Max</div>
+      <div class="zone-pct">&gt;90%</div>
+      <div class="zone-desc">Rarement. Très rarement. Et jamais avant 3 mois.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PLAN PAR PHASES -->
+<section class="section">
+  <p class="section-eyebrow">Le plan — Juin 2026 → Juin 2027</p>
+  <h2 class="section-title">52 Semaines.<br>5 Phases.<br>Zéro raccourci.</h2>
+
+  <div class="progress-chart">
+    <div class="chart-title">📈 PROGRESSION VOLUME HEBDOMADAIRE (km)</div>
+    <div class="bars-container">
+      <div class="bar-group">
+        <div class="bar" style="height:18%;background:linear-gradient(to top,rgba(10,132,255,0.8),rgba(10,132,255,0.3));">
+          <div class="bar-val">80</div>
+        </div>
+        <div class="bar-label">Juin<br>priv.</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:26%;background:linear-gradient(to top,rgba(10,132,255,0.8),rgba(10,132,255,0.3));">
+          <div class="bar-val">120</div>
+        </div>
+        <div class="bar-label">Juil.<br>P1</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:34%;background:linear-gradient(to top,rgba(48,209,88,0.8),rgba(48,209,88,0.3));">
+          <div class="bar-val">160</div>
+        </div>
+        <div class="bar-label">Sept.<br>P2</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:44%;background:linear-gradient(to top,rgba(48,209,88,0.8),rgba(48,209,88,0.3));">
+          <div class="bar-val">200</div>
+        </div>
+        <div class="bar-label">Oct.<br>P2</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:36%;background:linear-gradient(to top,rgba(48,209,88,0.6),rgba(48,209,88,0.2));">
+          <div class="bar-val">170</div>
+        </div>
+        <div class="bar-label">Nov.<br>hiver</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:50%;background:linear-gradient(to top,rgba(245,166,35,0.8),rgba(245,166,35,0.3));">
+          <div class="bar-val">230</div>
+        </div>
+        <div class="bar-label">Fév.<br>P3</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:63%;background:linear-gradient(to top,rgba(245,166,35,0.8),rgba(245,166,35,0.3));">
+          <div class="bar-val">290</div>
+        </div>
+        <div class="bar-label">Avr.<br>P3</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:78%;background:linear-gradient(to top,rgba(255,59,48,0.8),rgba(255,59,48,0.3));">
+          <div class="bar-val">360</div>
+        </div>
+        <div class="bar-label">Mai<br>P4</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:40%;background:linear-gradient(to top,rgba(142,142,147,0.6),rgba(142,142,147,0.2));">
+          <div class="bar-val">180</div>
+        </div>
+        <div class="bar-label">Juin<br>Taper</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar" style="height:100%;background:linear-gradient(to top,rgba(232,255,71,0.9),rgba(232,255,71,0.4));">
+          <div class="bar-val" style="color:var(--speed);">DÉFI</div>
+        </div>
+        <div class="bar-label" style="color:var(--speed);">Juin<br>2027</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 0 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <span class="phase-tag tag-reboot">Phase 0 — Officieux</span>
+        <div class="phase-title">Le Réveil Doux</div>
+        <div class="phase-dates">15 Juin → 30 Juin 2026 • 2,5 semaines</div>
+      </div>
+      <div class="phase-duration">
+        80<small>km/sem</small>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-bottom:20px;">
+      <div class="callout-title">🎯 OBJECTIF</div>
+      <div class="callout-text">Remettre le corps en contact avec la selle. Aucune performance, aucune ego. Juste du Z1–Z2 pur. Le carnet de bord commence ici.</div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot ld-rest"></div>Repos</div>
+      <div class="legend-item"><div class="legend-dot ld-easy"></div>Z1 Récup</div>
+      <div class="legend-item"><div class="legend-dot ld-medium"></div>Z2 Endurance</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-cell day-easy"><div class="day-label">LUN</div><div class="day-km">30'</div><div class="day-type">Z1 Sortie</div></div>
+      <div class="day-cell day-rest"><div class="day-label">MAR</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+      <div class="day-cell day-easy"><div class="day-label">MER</div><div class="day-km">45'</div><div class="day-type">Z1–Z2</div></div>
+      <div class="day-cell day-rest"><div class="day-label">JEU</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+      <div class="day-cell day-medium"><div class="day-label">VEN</div><div class="day-km">60'</div><div class="day-type">Z2</div></div>
+      <div class="day-cell day-medium"><div class="day-label">SAM</div><div class="day-km">90'</div><div class="day-type">Z2 Long</div></div>
+      <div class="day-cell day-rest"><div class="day-label">DIM</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+    </div>
+
+    <div class="phase-insights">
+      <div class="insight">
+        <div class="insight-label">Sorties/sem</div>
+        <div class="insight-value">3–4</div>
+        <div class="insight-sub">Jamais 2 jours consécutifs au début</div>
+      </div>
+      <div class="insight">
+        <div class="insight-label">Zone cible</div>
+        <div class="insight-value">Z1–Z2</div>
+        <div class="insight-sub">100% du temps</div>
+      </div>
+      <div class="insight">
+        <div class="insight-label">Priorité</div>
+        <div class="insight-value">Réglages</div>
+        <div class="insight-sub">Fitting vélo, position, cale-pieds</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <span class="phase-tag tag-base">Phase 1 — Base Aérobie</span>
+        <div class="phase-title">Les Fondations</div>
+        <div class="phase-dates">1er Juillet → 31 Août 2026 • 9 semaines</div>
+      </div>
+      <div class="phase-duration">
+        150<small>km/sem max</small>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-bottom:20px;">
+      <div class="callout-title">🎯 OBJECTIF</div>
+      <div class="callout-text">Construire une base aérobie solide. Monter progressivement à 4–5 sorties/semaine. Introduire la <strong style="color:var(--glow)">sortie longue dominicale</strong> — l'outil n°1 du cyclotouriste. Règle des +10% par semaine max.</div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot ld-rest"></div>Repos</div>
+      <div class="legend-item"><div class="legend-dot ld-easy"></div>Z1 Récup</div>
+      <div class="legend-item"><div class="legend-dot ld-medium"></div>Z2 Endurance</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-cell day-easy"><div class="day-label">LUN</div><div class="day-km">45'</div><div class="day-type">Z1</div></div>
+      <div class="day-cell day-rest"><div class="day-label">MAR</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+      <div class="day-cell day-medium"><div class="day-label">MER</div><div class="day-km">75'</div><div class="day-type">Z2</div></div>
+      <div class="day-cell day-easy"><div class="day-label">JEU</div><div class="day-km">45'</div><div class="day-type">Z1</div></div>
+      <div class="day-cell day-medium"><div class="day-label">VEN</div><div class="day-km">90'</div><div class="day-type">Z2</div></div>
+      <div class="day-cell day-medium"><div class="day-label">SAM</div><div class="day-km">2h30</div><div class="day-type">Z2 Long</div></div>
+      <div class="day-cell day-rest"><div class="day-label">DIM</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+    </div>
+
+    <p style="font-size:13px;color:var(--mist);margin:12px 0 20px;">🔄 <strong style="color:var(--cloud)">Semaine de récupération</strong> toutes les 3–4 semaines : réduire à 60–70% du volume.</p>
+
+    <table class="data-table">
+      <tr>
+        <th>Semaine</th><th>Volume</th><th>Sortie longue</th><th>Intensité</th><th>Note</th>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--white)">S1–S3</strong></td>
+        <td>80→110 km</td>
+        <td>60→90 km</td>
+        <td><span class="pill pill-easy">Z1–Z2</span></td>
+        <td style="color:var(--mist)">Rodage, sensation</td>
+      </tr>
+      <tr class="accent">
+        <td><strong style="color:var(--glow)">S4</strong></td>
+        <td>70 km</td>
+        <td>50 km</td>
+        <td><span class="pill pill-easy">RÉCUP</span></td>
+        <td style="color:var(--mist)">Semaine allégée</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--white)">S5–S7</strong></td>
+        <td>120→150 km</td>
+        <td>100→120 km</td>
+        <td><span class="pill pill-easy">Z2</span></td>
+        <td style="color:var(--mist)">Longue sortie dès 3h</td>
+      </tr>
+      <tr class="accent">
+        <td><strong style="color:var(--glow)">S8</strong></td>
+        <td>90 km</td>
+        <td>60 km</td>
+        <td><span class="pill pill-easy">RÉCUP</span></td>
+        <td style="color:var(--mist)">Bilan mi-parcours</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--white)">S9</strong></td>
+        <td>150 km</td>
+        <td>130 km</td>
+        <td><span class="pill pill-med">Z2+</span></td>
+        <td style="color:var(--mist)">Test : 1ère vraie sortie longue</td>
+      </tr>
+    </table>
+
+    <div class="phase-insights">
+      <div class="insight">
+        <div class="insight-label">Volume total</div>
+        <div class="insight-value">~1 100 km</div>
+        <div class="insight-sub">sur 9 semaines</div>
+      </div>
+      <div class="insight">
+        <div class="insight-label">Sortie longue max</div>
+        <div class="insight-value">130 km</div>
+        <div class="insight-sub">fin août</div>
+      </div>
+      <div class="insight">
+        <div class="insight-label">Zones</div>
+        <div class="insight-value">90% Z2</div>
+        <div class="insight-sub">10% Z1 récupération</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <span class="phase-tag tag-base">Phase 2 — Développement</span>
+        <div class="phase-title">Monter en Puissance</div>
+        <div class="phase-dates">1er Sept → 30 Nov 2026 • 13 semaines</div>
+      </div>
+      <div class="phase-duration">
+        200<small>km/sem max</small>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-bottom:20px;">
+      <div class="callout-title">🎯 OBJECTIF</div>
+      <div class="callout-text">Introduire les <strong style="color:var(--glow)">premières séances structurées</strong> (Z3 et quelques blocs Z4). Viser 2 sorties consécutives le week-end (samedi long + dimanche récupération). En novembre : home trainer ou vélo de route en salle si météo hostile.</div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot ld-rest"></div>Repos</div>
+      <div class="legend-item"><div class="legend-dot ld-easy"></div>Z1 Récup</div>
+      <div class="legend-item"><div class="legend-dot ld-medium"></div>Z2 Endurance</div>
+      <div class="legend-item"><div class="legend-dot ld-hard"></div>Z3–Z4 Travail</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-cell day-easy"><div class="day-label">LUN</div><div class="day-km">45'</div><div class="day-type">Z1</div></div>
+      <div class="day-cell day-hard"><div class="day-label">MAR</div><div class="day-km">75'</div><div class="day-type">Tempo</div></div>
+      <div class="day-cell day-rest"><div class="day-label">MER</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+      <div class="day-cell day-medium"><div class="day-label">JEU</div><div class="day-km">90'</div><div class="day-type">Z2</div></div>
+      <div class="day-cell day-hard"><div class="day-label">VEN</div><div class="day-km">60'</div><div class="day-type">Z3/Z4</div></div>
+      <div class="day-cell day-medium"><div class="day-label">SAM</div><div class="day-km">3h30</div><div class="day-type">Long Z2</div></div>
+      <div class="day-cell day-easy"><div class="day-label">DIM</div><div class="day-km">75'</div><div class="day-type">Z1 récup</div></div>
+    </div>
+
+    <p style="font-size:13px;color:var(--mist);margin:12px 0 20px;">💡 <strong style="color:var(--cloud)">Séance clé Phase 2 :</strong> 2×20 min à Z3 (tempo) avec 5 min de récup entre. À faire sur home trainer ou route plate. Progresser vers 3×20 min fin novembre.</p>
+
+    <div class="phase-insights">
+      <div class="insight">
+        <div class="insight-label">Volume total</div>
+        <div class="insight-value">~2 400 km</div>
+        <div class="insight-sub">sur 13 semaines</div>
+      </div>
+      <div class="insight">
+        <div class="insight-label">Sortie longue max</div>
+        <div class="insight-value">160 km</div>
+        <div class="insight-sub">fin octobre</div>
+      </div>
+      <div class="insight">
+        <div class="insight-label">Mix zones</div>
+        <div class="insight-value">75/15/10</div>
+        <div class="insight-sub">Z2 / Z3 / Z4</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <span class="phase-tag tag-build">Phase 3 — Spécificité</span>
+        <div class="phase-title">La Simulation du Défi</div>
+        <div class="phase-dates">1er Déc 2026 → 30 Avril 2027 • 21 semaines</div>
+      </div>
+      <div class="phase-duration">
+        300<small>km/sem max</small>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-bottom:20px;">
+      <div class="callout-title">🎯 OBJECTIF</div>
+      <div class="callout-text">Simuler les conditions du défi. <strong style="color:var(--glow)">Week-ends dos-à-dos obligatoires</strong> : Sam 120–150 km + Dim 80–100 km. Tester la nutrition sur le vélo, les sacs, la logistique. En mars/avril : <strong style="color:var(--glow)">mini-stage de 3 jours consécutifs</strong> comme répétition générale.</div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot ld-rest"></div>Repos</div>
+      <div class="legend-item"><div class="legend-dot ld-easy"></div>Z1 Récup</div>
+      <div class="legend-item"><div class="legend-dot ld-medium"></div>Z2 Endurance</div>
+      <div class="legend-item"><div class="legend-dot ld-hard"></div>Z3–Z4 Travail</div>
+      <div class="legend-item"><div class="legend-dot ld-race"></div>Simulation</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-cell day-rest"><div class="day-label">LUN</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+      <div class="day-cell day-hard"><div class="day-label">MAR</div><div class="day-km">90'</div><div class="day-type">Seuil</div></div>
+      <div class="day-cell day-medium"><div class="day-label">MER</div><div class="day-km">2h</div><div class="day-type">Z2</div></div>
+      <div class="day-cell day-easy"><div class="day-label">JEU</div><div class="day-km">60'</div><div class="day-type">Z1</div></div>
+      <div class="day-cell day-medium"><div class="day-label">VEN</div><div class="day-km">90'</div><div class="day-type">Z2/Z3</div></div>
+      <div class="day-cell day-race"><div class="day-label">SAM</div><div class="day-km">5h+</div><div class="day-type">Simul.</div></div>
+      <div class="day-cell day-medium"><div class="day-label">DIM</div><div class="day-km">3h</div><div class="day-type">Z2 récup</div></div>
+    </div>
+
+    <div style="margin:20px 0;background:rgba(255,59,48,0.06);border:1px solid rgba(255,59,48,0.2);border-radius:12px;padding:20px;">
+      <div style="font-weight:700;color:var(--red-zone);font-size:14px;margin-bottom:12px;">🔥 MINI-STAGE MARS/AVRIL — 3 JOURS CONSÉCUTIFS</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+        <div style="text-align:center;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--glow);">J1</div>
+          <div style="font-size:14px;font-weight:600;color:var(--white);">160 km</div>
+          <div style="font-size:12px;color:var(--mist);">Départ tôt • ravitaillement toutes les 50 km</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--glow);">J2</div>
+          <div style="font-size:14px;font-weight:600;color:var(--white);">140 km</div>
+          <div style="font-size:12px;color:var(--mist);">Jambes lourdes • test mental autant que physique</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--glow);">J3</div>
+          <div style="font-size:14px;font-weight:600;color:var(--white);">100 km</div>
+          <div style="font-size:12px;color:var(--mist);">Finir fort • Z2 discipliné • arrivée symbolique</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-insights">
+      <div class="insight">
+        <div class="insight-label">Volume total</div>
+        <div class="insight-value">~5 500 km</div>
+        <div class="insight-sub">sur 21 semaines</div>
+      </div>
+      <div class="insight">
+        <div class="insight-label">Week-end type</div>
+        <div class="insight-value">230 km</div>
+        <div class="insight-sub">Sam + Dim</div>
+      </div>
+      <div class="insight">
+        <div class="insight-label">Journée max</div>
+        <div class="insight-value">160 km</div>
+        <div class="insight-sub">stage de simulation</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 4 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <span class="phase-tag tag-peak">Phase 4 — Pic de Forme</span>
+        <div class="phase-title">L'Ascension Finale</div>
+        <div class="phase-dates">1er → 31 Mai 2027 • 4 semaines</div>
+      </div>
+      <div class="phase-duration">
+        360<small>km/sem max</small>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-bottom:20px;">
+      <div class="callout-title">🎯 OBJECTIF</div>
+      <div class="callout-text">Atteindre le pic de forme. Volume élevé mais <strong style="color:var(--glow)">toujours intelligent</strong>. Sortie longue finale de 180 km à J-21. Après : aucune sortie supérieure à 100 km. Le moteur est prêt — préserve-le.</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-cell day-rest"><div class="day-label">LUN</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+      <div class="day-cell day-hard"><div class="day-label">MAR</div><div class="day-km">2h</div><div class="day-type">Z3/Z4</div></div>
+      <div class="day-cell day-medium"><div class="day-label">MER</div><div class="day-km">2h30</div><div class="day-type">Z2</div></div>
+      <div class="day-cell day-easy"><div class="day-label">JEU</div><div class="day-km">60'</div><div class="day-type">Z1</div></div>
+      <div class="day-cell day-medium"><div class="day-label">VEN</div><div class="day-km">2h</div><div class="day-type">Z2</div></div>
+      <div class="day-cell day-race"><div class="day-label">SAM</div><div class="day-km">6h</div><div class="day-type">180 km</div></div>
+      <div class="day-cell day-medium"><div class="day-label">DIM</div><div class="day-km">3h30</div><div class="day-type">Récup Z2</div></div>
+    </div>
+
+    <div class="phase-insights">
+      <div class="insight"><div class="insight-label">Volume/sem</div><div class="insight-value">360 km</div><div class="insight-sub">pic absolu</div></div>
+      <div class="insight"><div class="insight-label">Dernière long.</div><div class="insight-value">J-21</div><div class="insight-sub">Puis progressif -30%</div></div>
+      <div class="insight"><div class="insight-label">Mental</div><div class="insight-value">Check</div><div class="insight-sub">Visualisation du défi</div></div>
+    </div>
+  </div>
+
+  <!-- TAPER -->
+  <div class="phase">
+    <div class="phase-header">
+      <div>
+        <span class="phase-tag tag-taper">Phase 5 — Taper</span>
+        <div class="phase-title">L'Art de Se Préserver</div>
+        <div class="phase-dates">1er → 10 Juin 2027 • 10 jours</div>
+      </div>
+      <div class="phase-duration">
+        -50%<small>du volume</small>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-bottom:20px;">
+      <div class="callout-title">🎯 OBJECTIF</div>
+      <div class="callout-text">Arriver à Chevetogne le <strong style="color:var(--glow)">11 Juin 2027</strong> avec des jambes fraîches et un mental en feu. Sorties légères, courtes, en Z1–Z2. Vérification du vélo, du matériel, de la logistique. Aucune "dernière grande sortie" — tu es prêt depuis des semaines.</div>
+    </div>
+
+    <div class="week-grid">
+      <div class="day-cell day-medium"><div class="day-label">J1</div><div class="day-km">60'</div><div class="day-type">Z2</div></div>
+      <div class="day-cell day-rest"><div class="day-label">J2</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+      <div class="day-cell day-easy"><div class="day-label">J3</div><div class="day-km">45'</div><div class="day-type">Z1</div></div>
+      <div class="day-cell day-rest"><div class="day-label">J4</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+      <div class="day-cell day-easy"><div class="day-label">J5</div><div class="day-km">40'</div><div class="day-type">Activation</div></div>
+      <div class="day-cell day-rest"><div class="day-label">J6</div><div class="day-km">—</div><div class="day-type">Repos</div></div>
+      <div class="day-cell day-easy"><div class="day-label">J7</div><div class="day-km">30'</div><div class="day-type">Z1</div></div>
+    </div>
+
+    <div style="margin-top:16px;text-align:center;padding:20px;background:rgba(232,255,71,0.05);border:1px solid rgba(232,255,71,0.2);border-radius:12px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:var(--speed);letter-spacing:3px;">J-ZÉRO — 11 JUIN 2027</div>
+      <div style="font-size:14px;color:var(--mist);margin-top:4px;">Chevetogne → Départ du défi. Tu es prêt.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TIPS -->
+<section class="section">
+  <p class="section-eyebrow">Les détails qui font la différence</p>
+  <h2 class="section-title">Le Vrai Guide<br>du Revenant.</h2>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">🔩</div>
+      <div>
+        <div class="tip-title">Le Fitting, d'abord</div>
+        <div class="tip-text">Avant la première vraie sortie : fitting professionnel. Une douleur de genou à 50 km/an te coûte une saison. À 5 000 km/an, elle te coûte le défi.</div>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🍌</div>
+      <div>
+        <div class="tip-title">Nutrition sur le Vélo</div>
+        <div class="tip-text">30–60g de glucides par heure dès 90 min de sortie. Commence à entraîner ton intestin maintenant. En juin 2027, tu avaleras 200g/h sur les étapes longues.</div>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">😴</div>
+      <div>
+        <div class="tip-title">Le Sommeil = Ton Entraînement</div>
+        <div class="tip-text">8h de sommeil = 1 séance de qualité en plus. Aucun supplement, aucune méthode ne remplace 8h de récupération nocturne à 51 ans.</div>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">📱</div>
+      <div>
+        <div class="tip-title">L'Outil de Suivi</div>
+        <div class="tip-text">Strava + capteur de fréquence cardiaque minimum. Idéalement un capteur de puissance (outil de jeu absolu pour l'entraînement par zones). Wahoo Elemnt ou Garmin pour naviguer les étapes.</div>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🏋️</div>
+      <div>
+        <div class="tip-title">Force & Mobilité</div>
+        <div class="tip-text">2×/semaine : squat, fentes, gainage. 10 min de mobilité hanche/dos chaque jour. À 51 ans, les muscles récupèrent vite. Les tendons et fascias, non.</div>
+      </div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-icon">🌡️</div>
+      <div>
+        <div class="tip-title">La Chaleur Espagnole</div>
+        <div class="tip-text">En juin à Castellón et Alicante : 35°C + possibles. Entraîne-toi parfois dans la chaleur dès avril. Commence les étapes ibériques à 6h du matin. Stop de 12h à 16h.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-slogan">Keep Pedaling.</div>
+  <p class="footer-sub">Chevetogne → Villamartin • Juin 2027 • Le come-back de ta vie</p>
+  <div style="margin-top:32px;font-size:12px;color:var(--chrome);letter-spacing:1px;">Plan personnalisé • 51 ans • Ancien 10–15 000 km/an • Objectif Juin 2027</div>
+</footer>
+
+</body>
+</html>
